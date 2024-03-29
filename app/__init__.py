@@ -1,7 +1,6 @@
 import os
 import pkgutil
 import importlib
-import sys
 import logging.config
 from dotenv import load_dotenv
 
@@ -91,7 +90,7 @@ class DynamicMenuCommand(Command):
 
     def execute(self, *args, **kwargs):
         commands = self.command_handler.get_commands()
-        menu = "Application Menu:\n"
+        menu = "Calculator App Menu:\n"
         for name, description in commands:
             menu += f"{name}: {description}\n"
         print(menu)
