@@ -8,8 +8,7 @@ class Command:
         self.description = ""  # Command description for menu display
 
     def execute(self, *args, **kwargs):
-        """Execute the command with given arguments."""
-        raise NotImplementedError("Command execution not implemented.")
+        raise NotImplementedError("this doesnt work like that.")
 
 class CommandHandler:
     """Handles registration and execution of commands."""

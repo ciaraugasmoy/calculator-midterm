@@ -29,44 +29,31 @@ class App:
         logging.info("Environment variables loaded.")
         return settings
 
-    def load_essentials(self):
-        plugins_package = 'app.plugins'
-        plugins_path = plugins_package.replace('.', '/')
-        if not os.path.exists(plugins_path):
-            logging.warning(f"Plugins directory '{plugins_path}' not found.")
+
+    def load_commands(self):
+        package = 'app.essentials'
+        path = package.replace('.', '/')
+        if not os.path.exists(path):
+            logging.warning(f" directory '{path}' not found.")
             return
-        for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_path]):
+        for _, pkg_name, is_pkg in pkgutil.iter_modules([path]):
             if is_pkg:
                 try:
-                    plugin_module = importlib.import_module(f'{plugins_package}.{plugin_name}')
-                    self.register_commands(plugin_module)
+                    module = importlib.import_module(f'{package}.{pkg_name}')
+                    self.register_commands(module)
                 except ImportError as e:
-                    logging.error(f"Error importing plugin {plugin_name}: {e}")
+                    logging.error(f"Error importing package {pkg_name}: {e}")
 
-    def load_plugins(self):
-        plugins_package = 'app.essentials'
-        plugins_path = plugins_package.replace('.', '/')
-        if not os.path.exists(plugins_path):
-            logging.warning(f"Plugins directory '{plugins_path}' not found.")
-            return
-        for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_path]):
-            if is_pkg:
-                try:
-                    plugin_module = importlib.import_module(f'{plugins_package}.{plugin_name}')
-                    self.register_commands(plugin_module)
-                except ImportError as e:
-                    logging.error(f"Error importing plugin {plugin_name}: {e}")
-
-    def register_commands(self, plugin_module):
-        for item_name in dir(plugin_module):
-            item = getattr(plugin_module, item_name)
+    def register_commands(self, module):
+        for item_name in dir(module):
+            item = getattr(module, item_name)
             if isinstance(item, type) and issubclass(item, Command) and item is not Command:
                 command_instance = item()
                 self.command_handler.register_command(command_instance)
-                logging.info(f"Command '{command_instance.name}' from plugin '{command_instance.name}' registered.")
+                logging.info(f"Command '{command_instance.name}' from package '{command_instance.name}' registered.")
 
     def start(self):
-        self.load_plugins()
+        self.load_commands()
         # Dynamically generate and register the menu command
         dynamic_menu_command = DynamicMenuCommand(self.command_handler)
         self.command_handler.register_command(dynamic_menu_command)
@@ -77,7 +64,7 @@ class App:
                 cmd_input = input(">>> ").strip()
                 if cmd_input.lower() == 'exit':
                     logging.info("Application exit.")
-                    break  # Graceful exit without sys.exit(0) for more natural control flow in some contexts
+                    break
                 elif cmd_input == '':  # Check if the input is empty
                     self.command_handler.execute_command("show_menu")  # Execute the show_menu command
                 else:
@@ -99,7 +86,7 @@ class DynamicMenuCommand(Command):
     def __init__(self, command_handler):
         super().__init__()
         self.name = "show_menu"
-        self.description = "Show the dynamic menu of all commands."
+        self.description = "Menu of all commands."
         self.command_handler = command_handler
 
     def execute(self, *args, **kwargs):
