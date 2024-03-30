@@ -76,7 +76,7 @@ class Calculations:
         return [calc for calc in cls.history if calc.operation.__name__ == operation_name]
 
 # Calculator performs Operations
-class Calculator:
+class calculator:
     @staticmethod
     def _perform_operation(a: Decimal, b: Decimal, operation: Callable[[Decimal, Decimal], Decimal]) -> Decimal:
         calculation = Calculation.create(a, b, operation)
@@ -85,24 +85,24 @@ class Calculator:
 
     @staticmethod
     def add(a: Decimal, b: Decimal) -> Decimal:
-        return Calculator._perform_operation(a, b, add)
+        return calculator._perform_operation(a, b, add)
 
     @staticmethod
     def subtract(a: Decimal, b: Decimal) -> Decimal:
-        return Calculator._perform_operation(a, b, subtract)
+        return calculator._perform_operation(a, b, subtract)
 
     @staticmethod
     def multiply(a: Decimal, b: Decimal) -> Decimal:
-        return Calculator._perform_operation(a, b, multiply)
+        return calculator._perform_operation(a, b, multiply)
 
     @staticmethod
     def divide(a: Decimal, b: Decimal) -> Decimal:
-        return Calculator._perform_operation(a, b, divide)
+        return calculator._perform_operation(a, b, divide)
 
     @staticmethod
     def power(a: Decimal, b: Decimal) -> Decimal:
-        return Calculator._perform_operation(a, b, power)
+        return calculator._perform_operation(a, b, power)
 
     @staticmethod
     def root(a: Decimal, b: Decimal) -> Decimal:
-        return Calculator._perform_operation(a, b, root)
+        return calculator._perform_operation(a, b, root)

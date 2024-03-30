@@ -1,7 +1,7 @@
 import sys
 from app.commands import Command
 from app.commands import CommandHandler
-from app.calculator import Calculator
+from app.calculator import calculator
 
 from decimal import Decimal, InvalidOperation
 
@@ -30,12 +30,12 @@ class CalculatorCommand(Command):
 
 def calculate_and_print(a, b, operation_name):
     operation_mappings = {
-        'add': Calculator.add,
-        'subtract': Calculator.subtract,
-        'multiply': Calculator.multiply,
-        'divide': Calculator.divide,
-        'power': Calculator.power,
-        'root': Calculator.root
+        'add': calculator.add,
+        'subtract': calculator.subtract,
+        'multiply': calculator.multiply,
+        'divide': calculator.divide,
+        'power': calculator.power,
+        'root': calculator.root
     }
 
     # Unified error handling for decimal conversion
